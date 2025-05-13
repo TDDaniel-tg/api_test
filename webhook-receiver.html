@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Центр уведомлений ЮKassa</title>
+    <link rel="stylesheet" href="webhook-receiver.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Центр уведомлений ЮKassa</h1>
+            <p class="subtitle">Мониторинг платежей и событий</p>
+        </header>
+
+        <div class="status-panel">
+            <div class="status-indicator" id="connectionStatus">
+                <span class="status-dot offline"></span>
+                <span class="status-text">Ожидание подключения...</span>
+            </div>
+            <div class="controls">
+                <button id="clearButton" class="btn clear-btn">Очистить все</button>
+                <button id="copyButton" class="btn copy-btn">Копировать URL</button>
+            </div>
+        </div>
+
+        <div class="webhooks-container">
+            <div class="webhooks-header">
+                <h2>Полученные уведомления</h2>
+                <div class="filter-controls">
+                    <span>Фильтр:</span>
+                    <select id="eventFilter">
+                        <option value="all">Все события</option>
+                        <option value="payment.succeeded">Успешные платежи</option>
+                        <option value="payment.canceled">Отмененные платежи</option>
+                        <option value="payment.waiting_for_capture">Ожидание подтверждения</option>
+                        <option value="refund.succeeded">Успешные возвраты</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="webhooks-list" id="webhooksList">
+                <div class="empty-state">
+                    <img src="https://yookassa.ru/favicon.ico" alt="ЮKassa Logo" width="64" height="64">
+                    <p>Ожидание уведомлений...</p>
+                    <p class="hint">Настройте вебхуки в личном кабинете ЮKassa на URL:</p>
+                    <code id="webhookUrl">https://ваш-домен.ru/api/webhook</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="details-panel" id="detailsPanel">
+            <div class="details-header">
+                <h3>Детали уведомления</h3>
+                <button class="close-btn" id="closeDetails">&times;</button>
+            </div>
+            <div class="details-body">
+                <pre id="webhookDetails">Выберите уведомление для просмотра деталей</pre>
+            </div>
+            <div class="details-footer">
+                <button id="copyDetailsButton" class="btn copy-details-btn">Копировать JSON</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="template" id="webhookItemTemplate" style="display: none;">
+        <div class="webhook-item">
+            <div class="webhook-header">
+                <span class="event-type"></span>
+                <span class="timestamp"></span>
+            </div>
+            <div class="webhook-body">
+                <div class="payment-info">
+                    <span class="payment-id"></span>
+                    <span class="payment-amount"></span>
+                </div>
+                <div class="payment-status"></div>
+            </div>
+            <div class="webhook-footer">
+                <button class="view-details-btn">Подробнее</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="webhook-receiver.js"></script>
+</body>
+</html> 
